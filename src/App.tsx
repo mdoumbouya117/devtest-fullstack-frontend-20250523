@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { Country } from './types/ICountry'
+import { Card } from 'antd'
 
 interface QueryResult {
 	countries: Country[]
@@ -42,13 +43,19 @@ export const App: React.FC = () => {
 	return (
 		<>
 			{countries.map((country: Country) => (
-				<div key={country.code}>
-					<h2>
-						{country.name} <span>{country.emoji}</span>
-					</h2>
+				<Card
+					key={country.code}
+					title={
+						<>
+							<h2>
+								{country.name} <span>{country.emoji}</span>
+							</h2>
+						</>
+					}
+				>
 					<p>Capital: {country.capital}</p>
 					<p>Continent: {country.continent.name}</p>
-				</div>
+				</Card>
 			))}
 		</>
 	)
