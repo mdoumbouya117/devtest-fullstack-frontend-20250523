@@ -1,0 +1,52 @@
+import React, { Fragment } from 'react'
+import { useQuery, gql } from '@apollo/client'
+import { Country } from './types/ICountry'
+
+interface QueryResult {
+	countries: Country[]
+}
+
+const COUNTRIES_QUERY = gql`
+	query Counties($code: String) {
+		countries(filter: { continent: { eq: $code } }) {
+			name
+			code
+			capital
+			continent {
+				name
+			}
+		}
+	}
+`
+
+export const App: React.FC = () => {
+	const continentCode = 'EU'
+	const { data, loading } = useQuery<QueryResult>(COUNTRIES_QUERY, {
+		variables: {
+			code: continentCode,
+		},
+	})
+
+	if (loading) {
+		return <p>Loading...</p>
+	}
+
+	if (!data?.countries) {
+		return <p>No countries found</p>
+	}
+
+	const { countries } = data
+	console.log('countries', countries)
+
+	return (
+		<Fragment>
+			{countries.map((country: Country) => (
+				<div key={country.code}>
+					<h2>{country.name}</h2>
+					<p>Capital: {country.capital}</p>
+					<p>Continent: {country.continent.name}</p>
+				</div>
+			))}
+		</Fragment>
+	)
+}
