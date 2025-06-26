@@ -4,6 +4,8 @@ export interface Country {
 	capital: string
 	continent: {
 		name: string
+		code: string
 	}
+	currencies: string[]
 	emoji: string
 }
