@@ -15,6 +15,7 @@ const COUNTRIES_QUERY = gql`
 			continent {
 				name
 			}
+			emoji
 		}
 	}
 `
@@ -39,14 +40,16 @@ export const App: React.FC = () => {
 	console.log('countries', countries)
 
 	return (
-		<Fragment>
+		<>
 			{countries.map((country: Country) => (
 				<div key={country.code}>
-					<h2>{country.name}</h2>
+					<h2>
+						{country.name} <span>{country.emoji}</span>
+					</h2>
 					<p>Capital: {country.capital}</p>
 					<p>Continent: {country.continent.name}</p>
 				</div>
 			))}
-		</Fragment>
+		</>
 	)
 }
